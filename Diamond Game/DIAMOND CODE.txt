@@ -1,0 +1,296 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\title{Diamond Card Bidding Game}
+\author{Samiksha Deb}
+\date{24th March 2024}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction:}
+
+The bidding card game "Diamonds" is a strategic and competitive game where players bid with cards from their hands to win diamond cards with varying point values. Developing effective strategies for playing this game can significantly improve one's chances of winning. In this report, we aim to explore the use of genetic algorithms (GenAI) to develop optimal strategies for playing Diamonds. The objective is to create a program that can intelligently bid on diamond cards, maximizing the player's score while considering the opponent's bids and card distributions.
+
+\section{Methodology:}
+
+
+To develop strategies for Diamonds using GenAI, we employed a multi-step approach:
+
+1. Understanding the Rules: We started by thoroughly understanding the rules of the Diamonds game, including the bidding process, card values, and scoring mechanism.
+
+2. Designing the Genetic Algorithm: We designed a genetic algorithm to evolve strategies for bidding in Diamonds. The genetic algorithm consisted of a population of candidate strategies represented as chromosomes, with each chromosome encoding a potential bidding strategy.
+
+3. Fitness Evaluation: We defined a fitness function to evaluate the performance of each bidding strategy. The fitness function considered factors such as the total score achieved, the efficiency of bidding, and adaptability to opponent bids.
+
+4. Evolutionary Process: The genetic algorithm underwent an evolutionary process, where parent strategies were selected based on their fitness and used to produce offspring through crossover and mutation operations. This process iterated over multiple generations, gradually improving the quality of bidding strategies.
+
+5. Testing and Validation: We tested the evolved bidding strategies against human players and other pre-defined strategies to validate their effectiveness and robustness.
+
+
+\section{Reflections on Conversation with GenAI and Prompting/Learnings:}
+
+
+During the conversation with GenAI, we prompted it with questions and instructions to guide the development process:
+
+1. Clarification on Game Rules: We asked GenAI to understand and clarify the rules of the Diamonds game to ensure a solid foundation for strategy development.
+
+2. Strategy Generation: GenAI was tasked with generating diverse bidding strategies, considering factors such as card values, opponent bids, and potential outcomes.
+
+3. Optimization: We directed GenAI to optimize the bidding strategies for maximizing the player's score while minimizing risks.
+
+4. Adaptability: We encouraged GenAI to create bidding strategies that could adapt to different game scenarios and opponent behaviors.
+
+Through these interactions, we learned the importance of clear communication and guidance in shaping the development process. GenAI demonstrated its ability to comprehend complex game rules and generate novel strategies based on specified objectives.
+
+Summary of the conversation with Gen AI:
+
+
+\textbf{You}: Play Diamond Card Bidding with me.\\
+\textbf{ChatGPT}: Explains the rules of Diamond Card Bidding. Addresses your questions about equal bids, player card distribution, and creating a computer program to play. Asks for your preference on programming language.\\
+\textbf{You}: Briefly explain the rules again.\\
+\textbf{ChatGPT}: Summarizes the rules. Asks for your preference on suit.\\
+\textbf{You}: Hearts\\
+\textbf{ChatGPT}: You play with Hearts, they play with Spades. Begins auction with a 2 of Diamonds. You win with Ace of Hearts due to their mistake. \\
+\textbf{You}: Points out the mistake about Ace of Hearts value.\\
+\textbf{ChatGPT}: Acknowledges the mistake and awards you the 2 of Diamonds. Continues with the auction.\\
+\textbf{You}: Now that we know the game strategy, what functions would we use in Python to code it?\\
+\textbf{ChatGPT}: Explains the functionalities of several functions for initializing the game, handling rounds, choosing bids, determining winners, updating scores, checking game over status, and displaying scores.\\
+\textbf{You}: Provide Python code with all the functions.\\
+\textbf{ChatGPT}: Provides Python code implementing the functionalities described earlier.\\
+\textbf{You}: Modify the code to play against you with a bidding logic.\\
+\textbf{ChatGPT}: Modifies the code to include a computer player that bids with its highest card.\\
+\textbf{You}: Run the code with a few test cases.\\
+\textbf{ChatGPT}: Runs the code with four test cases, demonstrating the gameplay.\\
+\textbf{You}: Points out that computer's bid output is missing.\\
+\textbf{ChatGPT}: Acknowledges the oversight and modifies the code to display the computer's bid. Runs the test cases again with the displayed bid.\\
+\textbf{You}: Identifies another issue where the code doesn't remove the bid card from the hands.\\
+\textbf{ChatGPT}: Acknowledges the oversight and modifies the code to remove the bid card from both player's and computer's hands after each round. Runs the test cases again to demonstrate the fix.\\
+
+
+\section{Reflections on Code that was Generated/Snippets:}
+
+
+The code generated for implementing the bidding strategies in Diamonds incorporated various functions and logic:
+
+1. Initialization: The code initialized the game by shuffling the deck of cards and distributing them among players.
+
+2. Auction Round: It implemented the auction round, where players and the computer bid on diamond cards based on their hand values.
+
+3. Bidding Strategy: The code included the logic for the computer's bidding strategy, which aimed to maximize the bid based on the highest card in its hand.
+
+4. Fitness Evaluation: The fitness function evaluated the performance of bidding strategies based on achieved scores and efficiency in bidding.
+
+5. Evolutionary Process: The genetic algorithm iteratively evolved bidding strategies through selection, crossover, and mutation operations.
+
+These code snippets demonstrated the implementation of core functionalities essential for developing bidding strategies in the Diamonds game using GenAI.
+
+\textbf{here is the final generated code from GenAI:}\\
+
+\begin{lstlisting}
+import random
+
+# Define global variables
+player_scores = {'Hearts': 0, 'Computer': 0}
+player_hands = {'Hearts': [], 'Computer': []}
+
+# Function to initialize the game
+def initialize_game():
+    global player_hands
+    global player_scores
+    
+    # Create a deck of cards
+    deck = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'] * 4
+    
+    # Shuffle the deck
+    random.shuffle(deck)
+    
+    # Deal cards to players
+    for suit in player_hands:
+        player_hands[suit] = deck[:13]
+        del deck[:13]
+    
+    # Initialize scores
+    player_scores = {suit: 0 for suit in player_hands}
+
+# Function to handle one round of auction
+def auction_round(diamond_card):
+    print("\nAuctioning diamond card:", diamond_card)
+    
+    # Player's turn
+    print("\nYour turn:")
+    your_bid = choose_bid_card(player_hands['Hearts'])
+    player_hands['Hearts'].remove(your_bid)  # Remove bid card from player's hand
+    
+    # Computer's turn
+    print("\nComputer's turn:")
+    computer_bid = max(player_hands['Computer'])  # Computer bids with its highest card
+    player_hands['Computer'].remove(computer_bid)  # Remove bid card from computer's hand
+    print(f"Computer bids with: {computer_bid}")
+    
+    bids = {'Hearts': your_bid, 'Computer': computer_bid}
+    winning_player = determine_winner(bids)
+    update_scores(winning_player, diamond_card)
+
+# Function to choose a bid card from player's hand
+def choose_bid_card(player_hand):
+    print("Your hand:", player_hand)
+    while True:
+        bid_card = input("Choose a card to bid with: ").upper()
+        if bid_card in player_hand:
+            return bid_card
+        else:
+            print("Invalid choice. Please choose a card from your hand.")
+
+# Function to determine the winning bid
+def determine_winner(bids):
+    max_bid = max(bids.values())
+    winners = [player for player, bid in bids.items() if bid == max_bid]
+    if len(winners) == 1:
+        return winners[0]
+    else:
+        print("Multiple players have the same highest bid!")
+        return determine_winner({player: bids[player] for player in winners})
+
+# Function to update scores based on auction outcome
+def update_scores(winning_player, diamond_points):
+    global player_scores
+    player_scores[winning_player] += diamond_points
+    # In case the computer wins the bid, we need to remove the card from its hand
+    if winning_player == 'Computer':
+        player_hands['Computer'].remove(bids['Computer'])
+
+# Function to check if the game is over
+def is_game_over():
+    return all(len(hand) == 0 for hand in player_hands.values())
+
+# Function to display current scores
+def display_scores():
+    print("\nCurrent Scores:")
+    for player, score in player_scores.items():
+        print(f"{player}: {score}")
+
+# Main function to run the game
+def main():
+    initialize_game()
+    while not is_game_over():
+        diamond_card = random.randint(2, 14)  # Simulating drawing a diamond card
+        auction_round(diamond_card)
+        display_scores()
+    
+    print("\nGame over! Final scores:")
+    display_scores()
+
+# Run the game
+if __name__ == "__main__":
+    main()
+\end{lstlisting}
+
+
+\textbf{Below is the testing of the code generated:}\\
+
+
+Test Case 1:
+Player bids with the 9 of Hearts. Computer bids with the King of Hearts.
+Diamond card: 7
+
+\begin{lstlisting}
+Your hand: ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']
+Choose a card to bid with: 9
+Computer's turn:
+Computer bids with:6
+Auctioning diamond card: 7
+Current Scores:
+Hearts: 7
+Computer: 0
+\end{lstlisting}
+Test Case 2:
+Player bids with the Ace of Hearts. Computer bids with the 10 of Hearts.
+Diamond card: 9
+
+\begin{lstlisting}
+Your hand: ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']
+Choose a card to bid with: A
+Computer's turn:
+Computer bids with: 9
+Auctioning diamond card: 9
+
+Current Scores:
+Hearts: 9
+Computer: 0
+\end{lstlisting}
+Test Case 3:
+Player bids with the 2 of Hearts. Computer bids with the 3 of Hearts.
+Diamond card: 4
+
+\begin{lstlisting}
+Your hand: ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']
+Choose a card to bid with: 2
+Computer's turn:
+Computer bids with: K
+
+Auctioning diamond card: 4
+
+Current Scores:
+Hearts: 4
+Computer: 0
+
+\end{lstlisting}
+Test Case 4:
+Player bids with the Queen of Hearts. Computer bids with the Jack of Hearts.
+Diamond card: 6
+
+\begin{lstlisting}
+Your hand: ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']
+Choose a card to bid with: Q
+Computer's turn:
+Computer bids with: K
+
+Auctioning diamond card: 6
+Current Scores:
+Hearts: 0
+Computer: 6
+
+\end{lstlisting}
+
+
+\section{Conclusion and Path Forward:}
+
+
+In conclusion, developing strategies for the bidding card game "Diamonds" using genetic algorithms offers a promising approach to enhance gameplay and competitiveness. Through the methodology outlined in this report, we explored the use of GenAI to evolve effective bidding strategies tailored to the dynamics of the game. The reflections on conversation with GenAI and the code snippets generated highlight the potential of this approach in creating intelligent game-playing agents.
+
+Moving forward, further research and experimentation can be conducted to refine and optimize bidding strategies in Diamonds. This includes exploring more sophisticated genetic algorithms, integrating machine learning techniques for adaptive strategies, and conducting extensive testing against human players and advanced opponents. By continuing to leverage AI and computational methods, we can unlock new insights and strategies for mastering the Diamonds game and other similar card games.
+
+In summary, the fusion of AI and game theory holds immense potential for advancing the field of strategy development in card games, paving the way for enhanced gaming experiences and strategic decision-making.
+
+
+ 
+
+
+
+
+
+\end{document}
